@@ -20,8 +20,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Insert data
         insertData();
+
+        // Query data and return cursor
         queryData();
+
+        // Close the cursor
+        queryData().close();
     }
 
     private void insertData(){
