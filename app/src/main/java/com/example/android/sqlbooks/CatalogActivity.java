@@ -1,33 +1,55 @@
 package com.example.android.sqlbooks;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import com.example.android.sqlbooks.data.ProductContract;
 import com.example.android.sqlbooks.data.ProductDbHelper;
 
-public class CatalogActivity extends AppCompatActivity {
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     private static final String TAG = "CatalogActivity";
 
+    // This is the Adapter being used to display the list's data
+    ProductCursorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
-        // Insert data
-        insertData();
+        // Setup FAB to open EditorActivity
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        // Query data and return cursor
-        queryData();
+        // Find ListView to populate
+        ListView productsListView = (ListView) findViewById(R.id.list_view_product);
 
-        // Close the cursor
-        queryData().close();
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        productsListView.setEmptyView(emptyView);
+
+        // Create an empty adapter we will use to display the loaded data.
+        // We pass null for the cursor, then update it in onLoadFinished()
+        mAdapter = new ProductCursorAdapter(this,null);
+        // Attach cursor adapter to the ListView
+        productsListView.setAdapter(mAdapter);
     }
 
     private void insertData(){
@@ -126,4 +148,18 @@ public class CatalogActivity extends AppCompatActivity {
         return cursor;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 }
