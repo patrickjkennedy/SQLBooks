@@ -2,15 +2,20 @@ package com.example.android.sqlbooks;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.sqlbooks.data.ProductContract;
@@ -19,6 +24,8 @@ import com.example.android.sqlbooks.data.ProductDbHelper;
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     private static final String TAG = "CatalogActivity";
+
+    public static final int PRODUCT_LOADER = 0;
 
     // This is the Adapter being used to display the list's data
     ProductCursorAdapter mAdapter;
@@ -50,6 +57,52 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         mAdapter = new ProductCursorAdapter(this,null);
         // Attach cursor adapter to the ListView
         productsListView.setAdapter(mAdapter);
+
+        // Setup item click listener
+        productsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                String PRODUCT_ID = Long.toString(id);
+                Uri PRODUCT_URI = Uri.withAppendedPath(ProductContract.ProductEntry.CONTENT_URI, PRODUCT_ID);
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+
+                // Pass URI to intent
+                intent.putExtra("PRODUCT_URI", PRODUCT_URI);
+
+                // Start the activity
+                startActivity(intent);
+            }
+        });
+
+        // Prepare the loader.  Either re-connect with an existing one,
+        // or start a new one.
+        getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_catalog.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy data" menu option
+            case R.id.action_insert_dummy_data:
+                insertData();
+                return true;
+            // Respond to a click on the "Delete all entries" menu option
+            case R.id.action_delete_all_entries:
+                // Do nothing for now
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void insertData(){
@@ -78,88 +131,35 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-    private Cursor queryData() {
-
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        ProductDbHelper mDbHelper = new ProductDbHelper(this);
-
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
+        // Define a projection
         String[] projection = {
                 ProductContract.ProductEntry._ID,
                 ProductContract.ProductEntry.COLUMN_NAME,
                 ProductContract.ProductEntry.COLUMN_USD_PRICE,
-                ProductContract.ProductEntry.COLUMN_QUANTITY,
-                ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME,
-                ProductContract.ProductEntry.COLUMN_SUPPLIER_EMAIL,
-                ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE
+                ProductContract.ProductEntry.COLUMN_QUANTITY
         };
 
-        // How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                ProductContract.ProductEntry._ID + " DESC";
-
-        Cursor cursor = db.query(
-                ProductContract.ProductEntry.TABLE_NAME,  // The table to query
-                projection,                               // The columns to return
-                null,                            // The columns for the WHERE clause
-                null,                        // The values for the WHERE clause
-                null,                            // don't group the rows
-                null,                             // don't filter by row groups
-                sortOrder                                 // The sort order
-        );
-
-        // Figure out the index of each column
-        int idColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry._ID);
-        int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_NAME);
-        int usdPriceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_USD_PRICE);
-        int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
-        int supplierNameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME);
-        int supplierEmailColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_SUPPLIER_EMAIL);
-        int supplierPhoneColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE);
-
-        // Iterate through all the returned rows in the cursor
-        while (cursor.moveToNext()) {
-            // Use that index to extract the String or Int value of the word
-            // at the current row the cursor is on.
-            int currentID = cursor.getInt(idColumnIndex);
-            String currentName = cursor.getString(nameColumnIndex);
-            float currentUsdPrice = cursor.getFloat(usdPriceColumnIndex);
-            int currentQuantity = cursor.getInt(quantityColumnIndex);
-            String currentSupplierName = cursor.getString(supplierNameColumnIndex);
-            String currentSupplierEmail = cursor.getString(supplierEmailColumnIndex);
-            String currentSupplierPhone = cursor.getString(supplierPhoneColumnIndex);
-
-            Log.d(TAG, ("\n" + currentID + " - "
-            + currentName + " - "
-            + currentUsdPrice + " - "
-            + currentQuantity + " - "
-            + currentSupplierName + " - "
-            + currentSupplierEmail + " - "
-            + currentSupplierPhone));
-
-        }
-        return cursor;
+        // Now create and return a CursorLoader that will take care of
+        // creating a Cursor for the data being displayed.
+        return new CursorLoader(this, ProductContract.ProductEntry.CONTENT_URI, projection,
+                null, null, null);
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
+    // Called when a previously created loader has finished loading
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // Swap the new cursor in.  (The framework will take care of closing the
+        // old cursor once we return.)
+        mAdapter.swapCursor(data);
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
-    }
-
-    @Override
+    // Called when a previously created loader is reset, making the data unavailable
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        // This is called when the last Cursor provided to onLoadFinished()
+        // above is about to be closed.  We need to make sure we are no
+        // longer using it.
+        mAdapter.swapCursor(null);
     }
 }
