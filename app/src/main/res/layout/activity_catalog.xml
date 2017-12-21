@@ -19,7 +19,7 @@
     tools:context=".CatalogActivity">
 
     <ListView
-        android:id="@+id/list_view_pet"
+        android:id="@+id/list_view_product"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/activity_margin"/>
@@ -32,7 +32,8 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_circle"
-        android:tint="@color/colorPrimaryDark"/>
+        android:tint="@android:color/white"
+        android:backgroundTint="@color/colorPrimary"/>
 
     <!-- Empty view for the list -->
     <RelativeLayout
@@ -42,7 +43,7 @@
         android:layout_centerInParent="true">
 
         <ImageView
-            android:id="@+id/empty_shelter_image"
+            android:id="@+id/bookshelf_image"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_centerHorizontal="true"
@@ -52,7 +53,7 @@
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/empty_shelter_image"
+            android:layout_below="@+id/bookshelf_image"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
