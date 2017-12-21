@@ -107,13 +107,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
     private void insertData(){
 
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        ProductDbHelper mDbHelper = new ProductDbHelper(this);
-
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         // Initialize the ContentValues object
         ContentValues values = new ContentValues();
 
@@ -125,9 +118,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_EMAIL, "pub@udacity.com");
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, "111-111-2222");
 
-        long newRowId = db.insert(ProductContract.ProductEntry.TABLE_NAME, null, values);
-
-        Log.d(TAG, "New row id: " + newRowId);
+        getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
     }
 

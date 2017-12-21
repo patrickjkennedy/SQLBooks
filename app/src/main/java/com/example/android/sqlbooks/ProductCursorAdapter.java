@@ -55,12 +55,17 @@ public class ProductCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         // Find fields to populate in inflated template
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
+        TextView priceTextView = (TextView) view.findViewById(R.id.price);
+        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+
         // Extract properties from cursor
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME));
-        String summary = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_USD_PRICE));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_NAME));
+        String price = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_USD_PRICE));
+        String quantity = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_QUANTITY));
+
         // Populate fields with extracted properties
         nameTextView.setText(name);
-        summaryTextView.setText(summary);
+        priceTextView.setText(context.getString(R.string.usd_sign)+price);
+        quantityTextView.setText(context.getString(R.string.quantity) + quantity);
     }
 }

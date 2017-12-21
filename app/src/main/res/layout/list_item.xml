@@ -20,12 +20,22 @@
         />
 
     <TextView
-        android:id="@+id/summary"
+        android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="#AEB6BD"
-        tools:text="Quantity"
+        tools:text="$123"
+        />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="#AEB6BD"
+        tools:text="Quantity: 123"
         />
 </LinearLayout>

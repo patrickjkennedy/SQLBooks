@@ -8,4 +8,6 @@
     <string name="toast_insert_success">Product Successfully Added.</string>
     <string name="add_product">Add Product</string>
     <string name="edit_product">Edit Product</string>
+    <string name="usd_sign">$</string>
+    <string name="quantity">Quantity:&#160;</string>
 </resources>
