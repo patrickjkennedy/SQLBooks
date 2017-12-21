@@ -6,4 +6,6 @@
     <string name="action_delete_all_entries">Delete All Products</string>
     <string name="toast_insert_failed">Product Addition Failed.</string>
     <string name="toast_insert_success">Product Successfully Added.</string>
+    <string name="add_product">Add Product</string>
+    <string name="edit_product">Edit Product</string>
 </resources>
