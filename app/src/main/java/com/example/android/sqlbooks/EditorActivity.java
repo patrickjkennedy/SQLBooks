@@ -27,7 +27,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     private static final int EXISTING_PRODUCT_LOADER = 0;
 
-    /** Content URI for the existing pet (null if it's a new pet) */
+    /** Content URI for the existing product (null if it's a new product) */
     private Uri PRODUCT_URI;
 
     /**
@@ -120,14 +120,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if(PRODUCT_URI == null){
 
-            // Save the new pet
+            // Save the new product
             getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
             //Show save message
             Toast.makeText(this, R.string.toast_product_saved, Toast.LENGTH_SHORT).show();
 
         } else{
-            //Update the existing pet
+            //Update the existing product
             getContentResolver().update(PRODUCT_URI, values, null,null);
 
             //Show edit message
@@ -196,7 +196,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor)
         if (cursor.moveToFirst()) {
-            // Find the columns of pet attributes that we're interested in
+            // Find the columns of product attributes that we're interested in
             int productNameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_NAME);
             int productPriceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_USD_PRICE);
             int productQuantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
