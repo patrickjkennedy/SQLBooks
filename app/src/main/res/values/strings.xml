@@ -18,4 +18,6 @@
     <string name="hint_supplier_phone">Supplier Phone</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
+    <string name="toast_product_saved">Product Saved</string>
+    <string name="toast_product_edit">Product Edited Successfully</string>
 </resources>
