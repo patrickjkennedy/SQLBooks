@@ -38,4 +38,5 @@
         android:textColor="#AEB6BD"
         tools:text="Quantity: 123"
         />
+
 </LinearLayout>

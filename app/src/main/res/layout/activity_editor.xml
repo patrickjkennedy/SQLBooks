@@ -63,6 +63,35 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/increase_quantity_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="5dp"
+            android:text="Quantity +"
+            android:onClick="increment"/>
+
+        <Button
+            android:id="@+id/decrease_quantity_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="5dp"
+            android:text="Quantity -"
+            android:onClick="decrement"/>
+    </LinearLayout>
+
     <!-- Overview category -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,28 +135,12 @@
         </LinearLayout>
     </LinearLayout>
     <Button
-        android:id="@+id/increase_quantity_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"
         android:layout_marginBottom="5dp"
-        android:text="Increase Quantity (+1)" />
-
-    <Button
-        android:id="@+id/decrease_quantity_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="5dp"
-        android:text="Decrease Quantity (-1)" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="16dp"
         android:text="Call Supplier" />
 
     <Button

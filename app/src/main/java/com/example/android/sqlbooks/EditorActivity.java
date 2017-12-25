@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -233,5 +234,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierNameEditText.setText("");
         mSupplierPhoneEditText.setText("");
         mSupplierEmailEditText.setText("");
+    }
+
+    public void increment(View view){
+        String productQuantityString = mProductQuantityEditText.getText().toString().trim();
+        int productQuantityInt = Integer.parseInt(productQuantityString);
+        productQuantityInt++;
+        Log.d("EditorActivity", "ProductQuantityInt: " + productQuantityInt);
+        mProductQuantityEditText.setText(Integer.toString(productQuantityInt));
+    }
+
+    public void decrement(View view){
+        String productQuantityString = mProductQuantityEditText.getText().toString().trim();
+        int productQuantityInt = Integer.parseInt(productQuantityString);
+        productQuantityInt--;
+        Log.d("EditorActivity", "ProductQuantityInt: " + productQuantityInt);
+        mProductQuantityEditText.setText(Integer.toString(productQuantityInt));
     }
 }
