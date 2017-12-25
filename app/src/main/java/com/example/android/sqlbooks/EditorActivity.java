@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.android.sqlbooks.data.ProductContract;
 
+import java.util.ArrayList;
+
 /**
  * Created by pkennedy on 12/21/17.
  */
@@ -240,7 +242,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String productQuantityString = mProductQuantityEditText.getText().toString().trim();
         int productQuantityInt = Integer.parseInt(productQuantityString);
         productQuantityInt++;
-        Log.d("EditorActivity", "ProductQuantityInt: " + productQuantityInt);
         mProductQuantityEditText.setText(Integer.toString(productQuantityInt));
     }
 
@@ -248,7 +249,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String productQuantityString = mProductQuantityEditText.getText().toString().trim();
         int productQuantityInt = Integer.parseInt(productQuantityString);
         productQuantityInt--;
-        Log.d("EditorActivity", "ProductQuantityInt: " + productQuantityInt);
         mProductQuantityEditText.setText(Integer.toString(productQuantityInt));
+    }
+
+    public void emailSupplier(View view) {
+        String supplierEmail = mSupplierEmailEditText.getText().toString().trim();
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"", supplierEmail});
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+            Log.d("EditorActivity", "Supplier email: " + supplierEmail);
+        }
     }
 }
