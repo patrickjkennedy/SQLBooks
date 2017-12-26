@@ -64,7 +64,15 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
                 String PRODUCT_ID = Long.toString(id);
-                Uri PRODUCT_URI = Uri.withAppendedPath(ProductContract.ProductEntry.CONTENT_URI, PRODUCT_ID);
+                final Uri PRODUCT_URI = Uri.withAppendedPath(ProductContract.ProductEntry.CONTENT_URI, PRODUCT_ID);
+
+                view.findViewById(R.id.sale_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d(TAG, "Product URI: " + PRODUCT_URI);
+                    }
+                });
+
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
 
                 // Pass URI to intent
@@ -152,9 +160,5 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // above is about to be closed.  We need to make sure we are no
         // longer using it.
         mAdapter.swapCursor(null);
-    }
-
-    public void productSale(View view){
-        Log.d(TAG,"I've been clicked!");
     }
 }

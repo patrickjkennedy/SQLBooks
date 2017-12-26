@@ -51,6 +51,6 @@
         android:text="Sale"
         android:textColor="@android:color/white"
         android:focusable="false"
-        android:onClick="productSale"/>
+        />
 
 </RelativeLayout>
