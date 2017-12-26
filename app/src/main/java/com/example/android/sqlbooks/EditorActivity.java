@@ -27,6 +27,8 @@ import java.util.ArrayList;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
 
+    private static final String TAG = "EditorActivity";
+
     private static final int EXISTING_PRODUCT_LOADER = 0;
 
     /** Content URI for the existing product (null if it's a new product) */
@@ -259,7 +261,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"", supplierEmail});
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
-            Log.d("EditorActivity", "Supplier email: " + supplierEmail);
         }
     }
 

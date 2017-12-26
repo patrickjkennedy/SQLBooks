@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Layout for a single list item in the list of pets -->
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,6 +21,7 @@
 
     <TextView
         android:id="@+id/price"
+        android:layout_below="@id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -31,6 +32,7 @@
 
     <TextView
         android:id="@+id/quantity"
+        android:layout_below="@id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -39,4 +41,16 @@
         tools:text="Quantity: 123"
         />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/sale_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorAccent"
+        android:text="Sale"
+        android:textColor="@android:color/white"
+        android:focusable="false"
+        android:onClick="productSale"/>
+
+</RelativeLayout>

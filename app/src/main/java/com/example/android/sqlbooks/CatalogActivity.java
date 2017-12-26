@@ -153,4 +153,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // longer using it.
         mAdapter.swapCursor(null);
     }
+
+    public void productSale(View view){
+        Log.d(TAG,"I've been clicked!");
+    }
 }
