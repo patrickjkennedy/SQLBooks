@@ -141,7 +141,8 @@
         android:textColor="@android:color/white"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="16dp"
-        android:text="Call Supplier"/>
+        android:text="Call Supplier"
+        android:onClick="callSupplier"/>
 
     <Button
         android:layout_width="match_parent"

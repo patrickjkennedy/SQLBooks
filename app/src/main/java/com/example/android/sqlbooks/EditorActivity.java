@@ -262,4 +262,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             Log.d("EditorActivity", "Supplier email: " + supplierEmail);
         }
     }
+
+    public void callSupplier(View view) {
+        String supplierPhoneNumber = mSupplierPhoneEditText.getText().toString().trim();
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + supplierPhoneNumber));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
 }
