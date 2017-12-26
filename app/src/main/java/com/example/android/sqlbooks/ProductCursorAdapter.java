@@ -23,6 +23,11 @@ import com.example.android.sqlbooks.data.ProductDbHelper;
  */
 public class ProductCursorAdapter extends CursorAdapter {
 
+    private static final String TAG = "CatalogActivity";
+
+    private TextView quantityTextView;
+    private String quantity;
+
     /**
      * Constructs a new {@link ProductCursorAdapter}.
      *
@@ -59,15 +64,16 @@ public class ProductCursorAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
+        Log.d(TAG, "Bind view was called");
         // Find fields to populate in inflated template
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        quantityTextView = (TextView) view.findViewById(R.id.quantity);
 
         // Extract properties from cursor
         String name = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_NAME));
         String price = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_USD_PRICE));
-        final String quantity = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_QUANTITY));
+        quantity = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_QUANTITY));
 
         // Populate fields with extracted properties
         nameTextView.setText(name);
@@ -81,17 +87,18 @@ public class ProductCursorAdapter extends CursorAdapter {
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Move cursor to clicked position
                 cursor.moveToPosition(position);
 
                 int currentQuantity = Integer.parseInt(quantity);
 
-                if(currentQuantity == 0){
+                if (currentQuantity == 0) {
                     Toast.makeText(view.getContext(), "No product available", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 currentQuantity--;
-                quantityTextView.setText(context.getString(R.string.quantity) + Integer.toString(currentQuantity));
+                quantityTextView.setText(context.getString(R.string.quantity) + currentQuantity);
 
                 ProductDbHelper dbHelper = new ProductDbHelper(view.getContext());
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -101,6 +108,7 @@ public class ProductCursorAdapter extends CursorAdapter {
                 long id = cursor.getLong(cursor.getColumnIndex(ProductContract.ProductEntry._ID));
                 db.update(ProductContract.ProductEntry.TABLE_NAME, values, "_id=" + id, null);
                 db.close();
+                quantityTextView.setText(context.getString(R.string.quantity) + currentQuantity);
 
             }
         });

@@ -20,4 +20,9 @@
     <string name="action_delete">Delete</string>
     <string name="toast_product_saved">Product Saved</string>
     <string name="toast_product_edit">Product Edited Successfully</string>
+    <string name="delete_dialog_msg">Delete this product?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_product_failed">Error with deleting product</string>
+    <string name="delete_product_successful">Product deleted</string>
 </resources>
