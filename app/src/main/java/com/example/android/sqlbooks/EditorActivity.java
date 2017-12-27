@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.android.sqlbooks.data.ProductContract;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by pkennedy on 12/21/17.
  */
@@ -103,7 +105,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String productNameString = mProductNameEditText.getText().toString().trim();
 
         String productPriceString = mProductPriceEditText.getText().toString().trim();
-        float productPriceFloat = Float.parseFloat(productPriceString);
+
+        double productPriceDouble = Double.parseDouble(String.format("%.2f", Double.parseDouble(productPriceString)));
 
         String productQuantityString = mProductQuantityEditText.getText().toString().trim();
         int productQuantityInt = Integer.parseInt(productQuantityString);
@@ -117,7 +120,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_NAME, productNameString);
-        values.put(ProductContract.ProductEntry.COLUMN_USD_PRICE, productPriceFloat);
+        values.put(ProductContract.ProductEntry.COLUMN_USD_PRICE, productPriceDouble);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailString);
@@ -218,7 +221,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
             String supplierEmail = cursor.getString(supplierEmailColumnIndex);
 
-
             // Update the views on the screen with the values from the database
             mProductNameEditText.setText(productName);
             mProductPriceEditText.setText(Float.toString(productPrice));
@@ -250,8 +252,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public void decrement(View view){
         String productQuantityString = mProductQuantityEditText.getText().toString().trim();
         int productQuantityInt = Integer.parseInt(productQuantityString);
-        productQuantityInt--;
-        mProductQuantityEditText.setText(Integer.toString(productQuantityInt));
+        if(productQuantityInt > 0){
+            productQuantityInt--;
+            mProductQuantityEditText.setText(Integer.toString(productQuantityInt));
+        } else {
+            Toast.makeText(this, "Item out of stock", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void emailSupplier(View view) {
