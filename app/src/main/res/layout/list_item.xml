@@ -41,15 +41,13 @@
         tools:text="Quantity: 123"
         />
 
-    <Button
-        android:id="@+id/sale_button"
+    <ImageView
+        android:id="@+id/sale_image_view"
+        android:src="@drawable/ic_shopping_cart_black_48dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="8dp"
-        android:background="@color/colorAccent"
-        android:text="Sale"
-        android:textColor="@android:color/white"
         android:focusable="false"
         />
 

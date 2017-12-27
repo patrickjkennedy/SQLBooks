@@ -66,13 +66,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 String PRODUCT_ID = Long.toString(id);
                 final Uri PRODUCT_URI = Uri.withAppendedPath(ProductContract.ProductEntry.CONTENT_URI, PRODUCT_ID);
 
-                view.findViewById(R.id.sale_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d(TAG, "Product URI: " + PRODUCT_URI);
-                    }
-                });
-
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
 
                 // Pass URI to intent

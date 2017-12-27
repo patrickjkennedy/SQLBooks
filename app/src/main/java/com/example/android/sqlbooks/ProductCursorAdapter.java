@@ -1,15 +1,20 @@
 package com.example.android.sqlbooks;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +29,6 @@ import com.example.android.sqlbooks.data.ProductDbHelper;
 public class ProductCursorAdapter extends CursorAdapter {
 
     private static final String TAG = "CatalogActivity";
-
-    private TextView quantityTextView;
-    private String quantity;
 
     /**
      * Constructs a new {@link ProductCursorAdapter}.
@@ -64,52 +66,47 @@ public class ProductCursorAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
-        Log.d(TAG, "Bind view was called");
         // Find fields to populate in inflated template
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        ImageView saleImageView = (ImageView) view.findViewById(R.id.sale_image_view);
 
         // Extract properties from cursor
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_NAME));
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry._ID));
+        final String name = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_NAME));
         String price = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_USD_PRICE));
-        quantity = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_QUANTITY));
+        String quantity = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_QUANTITY));
+        final int quantityInt = Integer.parseInt(quantity);
 
         // Populate fields with extracted properties
         nameTextView.setText(name);
         priceTextView.setText(context.getString(R.string.usd_sign)+price);
         quantityTextView.setText(context.getString(R.string.quantity) + quantity);
 
-        // Setup an On Click listener on the button, and get the correct position on button click
-        Button saleButton = (Button) view.findViewById(R.id.sale_button);
+        final Uri currentProductUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
 
         final int position = cursor.getPosition();
-        saleButton.setOnClickListener(new View.OnClickListener() {
+        saleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Move cursor to clicked position
-                cursor.moveToPosition(position);
-
-                int currentQuantity = Integer.parseInt(quantity);
-
-                if (currentQuantity == 0) {
-                    Toast.makeText(view.getContext(), "No product available", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                currentQuantity--;
-                quantityTextView.setText(context.getString(R.string.quantity) + currentQuantity);
-
-                ProductDbHelper dbHelper = new ProductDbHelper(view.getContext());
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                Log.d(TAG, name + " quantity= " + quantityInt);
+                ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, currentQuantity);
-
-                long id = cursor.getLong(cursor.getColumnIndex(ProductContract.ProductEntry._ID));
-                db.update(ProductContract.ProductEntry.TABLE_NAME, values, "_id=" + id, null);
-                db.close();
-                quantityTextView.setText(context.getString(R.string.quantity) + currentQuantity);
-
+                if(quantityInt > 0){
+                    int q = quantityInt;
+                    Log.d(TAG, "new quantity= " + q);
+                    values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, --q);
+                    resolver.update(
+                            currentProductUri,
+                            values,
+                            null,
+                            null
+                    );
+                    context.getContentResolver().notifyChange(currentProductUri, null);
+                } else {
+                    Toast.makeText(context, "Item out of stock", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
