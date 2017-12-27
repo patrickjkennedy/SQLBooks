@@ -28,7 +28,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Product Details"
+            android:text="@string/product_details"
             style="@style/CategoryStyle" />
         <!-- Input fields -->
         <LinearLayout
@@ -75,7 +75,7 @@
             android:background="@color/colorAccent"
             android:textColor="@android:color/white"
             android:layout_marginBottom="5dp"
-            android:text="Quantity +"
+            android:text="@string/quantity_plus"
             android:onClick="increment"/>
 
         <Button
@@ -88,7 +88,7 @@
             android:background="@color/colorAccent"
             android:textColor="@android:color/white"
             android:layout_marginBottom="5dp"
-            android:text="Quantity -"
+            android:text="@string/quantity_minus"
             android:onClick="decrement"/>
     </LinearLayout>
 
@@ -100,7 +100,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Supplier Details"
+            android:text="@string/supplier_details"
             style="@style/CategoryStyle" />
         <!-- Input fields -->
         <LinearLayout
@@ -141,7 +141,7 @@
         android:textColor="@android:color/white"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="16dp"
-        android:text="Call Supplier"
+        android:text="@string/call_supplier"
         android:onClick="callSupplier"/>
 
     <Button
@@ -150,7 +150,7 @@
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"
         android:layout_marginBottom="5dp"
-        android:text="Email Supplier"
+        android:text="@string/email_supplier"
         android:onClick="emailSupplier"/>
 
 </LinearLayout>

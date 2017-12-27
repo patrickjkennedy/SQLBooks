@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,16 +107,45 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         String productPriceString = mProductPriceEditText.getText().toString().trim();
 
-        double productPriceDouble = Double.parseDouble(String.format("%.2f", Double.parseDouble(productPriceString)));
-
         String productQuantityString = mProductQuantityEditText.getText().toString().trim();
-        int productQuantityInt = Integer.parseInt(productQuantityString);
 
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
 
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
 
         String supplierEmailString = mSupplierEmailEditText.getText().toString().trim();
+
+        //Check if is new or if an update
+        if (TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(productPriceString)
+                || TextUtils.isEmpty(productQuantityString) || TextUtils.isEmpty(supplierNameString)
+                || TextUtils.isEmpty(supplierPhoneString) || TextUtils.isEmpty(supplierEmailString)) {
+
+            Toast.makeText(this, R.string.all_fields_toast, Toast.LENGTH_LONG).show();
+            // No change has been made so we can return
+            return;
+        }
+
+        // Parse numerical values from strings above.
+
+        double productPriceDouble = 0.00;
+
+        if (!productPriceString.isEmpty()){
+            try{
+                productPriceDouble = Double.parseDouble(String.format("%.2f", Double.parseDouble(productPriceString)));
+            } catch (Exception e){
+                productPriceDouble = 0.00;
+            }
+        }
+
+        int productQuantityInt = 0;
+
+        if (!productQuantityString.isEmpty()){
+            try{
+                productQuantityInt = Integer.parseInt(productQuantityString);
+            } catch (Exception e){
+                productQuantityInt = 0;
+            }
+        }
 
 
         ContentValues values = new ContentValues();
@@ -126,6 +156,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailString);
 
         values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, productQuantityInt);
+
 
         if(PRODUCT_URI == null){
 

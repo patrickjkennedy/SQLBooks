@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SQLBooks</string>
     <string name="empty_view_title_text">It looks a bit barren here...</string>
-    <string name="empty_view_subtitle_text">Get started by adding a product</string>
+    <string name="empty_view_subtitle_text">Add a product, click the + icon.</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
     <string name="action_delete_all_entries">Delete All Products</string>
     <string name="toast_insert_failed">Product Addition Failed.</string>
@@ -25,4 +25,11 @@
     <string name="cancel">Cancel</string>
     <string name="delete_product_failed">Error with deleting product</string>
     <string name="delete_product_successful">Product deleted</string>
+    <string name="all_fields_toast">All fields must be filled.</string>
+    <string name="product_details">Product Details</string>
+    <string name="quantity_plus">Quantity +</string>
+    <string name="quantity_minus">Quantity -</string>
+    <string name="supplier_details">Supplier Details</string>
+    <string name="call_supplier">Call Supplier</string>
+    <string name="email_supplier">Email Supplier</string>
 </resources>
